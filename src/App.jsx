@@ -24,7 +24,7 @@ function App() {
         return tasks.filter(task => task.id !== action.payload);
       case 'ADD_TODO':
         return [...tasks, { id: new Date(), text: inputTask, completed: false }];
-      
+        
       default:
         return tasks
         
@@ -37,6 +37,7 @@ function App() {
   const initRegData = {
     values: { name: '', email: '', password: '' },
     errors: { name: '', email: '', password: '' },
+    touched: { name: false, email: false, password: false },
     submitStatus: 'no'
   }
   const validateForm = (field, value) => {
@@ -83,7 +84,14 @@ function App() {
             ...state, values: newValues, errors: errValues
           };
         }
-          
+        case 'BLUR_FIELD': {
+          const { field } = action.payload;
+          console.log('blur')
+          return {
+            ...state,
+            touched: { ...state.touched, [field]: true }
+          };
+        }          
         case "RESET_FORM": {
           return initRegData 
         }
